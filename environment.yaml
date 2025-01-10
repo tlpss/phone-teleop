@@ -1,0 +1,6 @@
+name: phone-teleop
+dependencies:
+ - python=3.11
+ - pip
+ - pip:
+    - -e .

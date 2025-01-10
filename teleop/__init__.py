@@ -45,7 +45,7 @@ class Teleop:
         ssl_context (ssl.SSLContext, optional): The SSL context for secure communication. Defaults to None.
     """
 
-    def __init__(self, host="0.0.0.0", port=4443, ssl_context=None):
+    def __init__(self, host="0.0.0.0", port=4443):
         self.__logger = logging.getLogger("teleop")
         self.__logger.setLevel(logging.INFO)
         self.__logger.addHandler(logging.StreamHandler())
@@ -53,20 +53,12 @@ class Teleop:
         self.__server = None
         self.__host = host
         self.__port = port
-        self.__ssl_context = ssl_context
 
         self.__relative_pose_init = None
         self.__absolute_pose_init = None
         self.__previous_received_pose = None
         self.__callbacks = []
         self.__pose = np.eye(4)
-
-        if self.__ssl_context is None:
-            self.__ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS)
-            self.__ssl_context.load_cert_chain(
-                certfile=os.path.join(THIS_DIR, "cert.pem"),
-                keyfile=os.path.join(THIS_DIR, "key.pem"),
-            )
 
         self.__app = Flask(__name__)
         log = logging.getLogger("werkzeug")
@@ -194,7 +186,6 @@ class Teleop:
             app=self.__app,
             host=self.__host,
             port=self.__port,
-            ssl_context=self.__ssl_context,
         )
         self.__server.serve_forever()
 

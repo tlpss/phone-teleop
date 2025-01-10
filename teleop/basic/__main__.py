@@ -7,7 +7,7 @@ def main():
         print(f"Pose: {pose}")
         print(f"Message: {message}")
 
-    teleop = Teleop()
+    teleop = Teleop(host="0.0.0.0",port=5000)
     teleop.set_pose(np.eye(4))
     teleop.subscribe(callback)
     teleop.run()
